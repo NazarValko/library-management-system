@@ -14,5 +14,6 @@
 
 
 To run project:
-1.Clone the repository to your local machine.
+1.Clone the repository to your local machine.	
 2.Run ./mvnw spring-boot:run.
+			
