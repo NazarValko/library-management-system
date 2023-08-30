@@ -1,0 +1,126 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <link rel="stylesheet" href="/src/main/resources/static/css/style.css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="/src/main/resources/static/css/header.css" th:href="@{/css/header.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+</head>
+<body>
+    <header th:replace="~{fragments/header :: header}"></header>
+    <aside th:replace="~{fragments/panel :: panel}"></aside>
+    <div class="overlay" id="overlay"></div>
+    <div class="main-content">
+        <div class="search-container">
+            <form th:action="@{/search}" method="get">
+                <input type="text" name="query" style="font-style: italic" placeholder="Search by name or author">
+                <button type="submit">Search</button>
+                <button type="button" onclick="openFilterModal()">Filter</button>
+            </form>
+
+
+        </div>
+        <div></div>
+        <table class="custom-table">
+            <thead>
+            <tr>
+                <th>ISBN</th>
+                <th>Book Name</th>
+                <th>Book Author</th>
+                <th>Topic</th>
+                <th>Published Date</th>
+                <th>Available</th>
+                <th sec:authorize="!hasRole('ADMIN') && isAuthenticated()">Reserve</th>
+                <th sec:authorize="!hasRole('ADMIN') && isAuthenticated()">Add Review</th>
+                <th sec:authorize="hasRole('ADMIN') && isAuthenticated()" colspan="2">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr th:each="book : ${books}">
+                    <td th:text="${book.ISBN}"></td>
+                    <td th:text="${book.title}"></td>
+                    <td th:text="${book.author.getName()}"></td>
+                    <td th:text="${book.category != null ? (book.category.getName() != null ? book.category.getName() : 'Not Added') : 'Not Added'}"></td>
+                    <td th:text="${book.publishedDate}"></td>
+
+                    <td>
+                        <span th:if="${book.available}">Yes</span>
+                        <span th:unless="${book.available}">No</span>
+                    </td>
+                    <td sec:authorize="!hasRole('ADMIN') && isAuthenticated()">
+                        <button sec:authorize="isAuthenticated()"
+                                th:class="${book.available ? 'availability-btn reserve available' : 'availability-btn reserve unaviable'}"
+                                class="availability-btn reserve">
+
+                            <a th:attr="data-book-id=${book.id}"  onclick="markAsSent(this)" id="requestLink" th:if="${book.isAvailable()}" href="#" th:href="@{/request-book(bookId=${book.id})}">Request</a>
+                            <a th:if="${!book.isAvailable()}" href="#">Request</a>
+                        </button>
+                    </td>
+
+                    <td sec:authorize="!hasRole('ADMIN') && isAuthenticated()">
+                        <button sec:authorize="isAuthenticated()" class="edit-button">
+                            <a href="#" th:data-book-id="${book.id}">Add Review</a>
+                        </button>
+                        <div class="modal-books" id="add-review-form">
+                            <h2>Add Review</h2>
+                            <form th:action="@{/add-review(id=${book.id})}" th:object="${String}" method="post">
+                                <input type="hidden" th:name="id" th:value="${book.id}">
+                                <input type="text" id="edit-name" name="comment" placeholder="Write something">
+                                <button class="save-button">Add</button>
+                            </form>
+                        </div>
+                    </td>
+
+                    <td sec:authorize="isAuthenticated()">
+                        <button sec:authorize="isAuthenticated()">
+                            <a href="#" th:href="@{/view-book(id=${book.id})}">View Book</a>
+                        </button>
+                    </td>
+                    <td sec:authorize="hasRole('ADMIN') && isAuthenticated()" >
+                        <button sec:authorize="isAuthenticated()">
+                            <a href="#" th:href="@{/delete-book(id=${book.id})}">Delete</a>
+                        </button>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <a th:each="page : ${#numbers.sequence(1, totalPages)}"
+               th:href="@{'/?page=' + ${page}}"
+               th:class="${page == currentPage ? 'active' : ''}"
+               th:text="${page}"></a>
+        </div>
+    </div>
+
+    <div id="filterModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeFilterModal()">&times;</span>
+            <h2>Filter By Topic</h2>
+            <form th:action="@{/}" method="get">
+                <label th:each="theme : ${allThemes}">
+                    <input type="checkbox" name="categories" th:value="${theme.id}" th:text="${theme.getName()}">
+                </label>
+                <button type="submit">Apply</button>
+            </form>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        function markAsSent(link) {
+            var bookId = link.getAttribute('data-book-id');
+            link.innerHTML = "Sent";
+            link.onclick = function(event) {
+                event.preventDefault();
+                return false;
+            };
+        }
+    </script>
+    <script th:src="@{js/showFilter.js}"></script>
+    <script th:src="@{js/showSubMenu.js}"></script>
+    <script th:src="@{js/showRequest.js}"></script>
+    <script th:src="@{js/showAddReview.js}"></script>
+</body>
+</html>

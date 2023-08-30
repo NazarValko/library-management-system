@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <link rel="stylesheet" href="/src/main/resources/static/css/style.css" th:href="@{/css/style.css}">
+  <link rel="stylesheet" href="/src/main/resources/static/css/header.css" th:href="@{/css/header.css}">
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<aside th:replace="~{fragments/panel :: panel}"></aside>
+<div class="main-content">
+  <div class="search-container">
+    <form th:action="@{/search}" method="get">
+      <input type="text" name="query" style="font-style: italic" placeholder="Search by name or author">
+      <button type="submit">Search</button>
+      <button type="button" onclick="openFilterModal()">Filter</button>
+    </form>
+
+
+  </div>
+  <!-- Решта вашого HTML для відображення результатів пошуку -->
+  <table class="custom-table">
+    <thead>
+    <!-- ... -->
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+      <td th:text="${book.ISBN}"></td>
+      <td th:text="${book.title}"></td>
+      <td th:text="${book.author.name}"></td>
+      <td th:text="${book.category.name}"></td>
+      <td th:text="${book.publishedDate}"></td>
+      <td>
+        <span th:if="${book.available}">Yes</span>
+        <span th:unless="${book.available}">No</span>
+      </td>
+      <td>
+        <button sec:authorize="isAuthenticated()"
+                th:class="${book.available ? 'availability-btn reserve available' : 'availability-btn reserve unaviable'}"
+                class="availability-btn reserve">
+
+          <a th:attr="data-book-id=${book.id}"  onclick="markAsSent(this)" id="requestLink" th:if="${book.isAvailable()}" href="#" th:href="@{/request-book(bookId=${book.id})}">Request</a>
+          <a th:if="${!book.isAvailable()}" href="#">Request</a>
+        </button>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <link rel="stylesheet" href="/src/main/resources/static/css/style.css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="/src/main/resources/static/css/header.css" th:href="@{/css/header.css}">
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<aside th:replace="~{fragments/panel :: panel}"></aside>
+<div class="main-content">
+    <a th:href="@{/generate-pdf}" target="_blank" download="librarian-card.pdf">
+        <button>Get Reader Card</button>
+    </a>
+    <div class="dashboard-cards">
+        <div class="card" sec:authorize="hasRole('ADMIN')">
+            <h2>Books</h2>
+            <p th:text="${allBooks}">75</p>
+            <div class="more-info-bg">
+                <p class="more-info-text"><a href="#" th:href="@{/}">More Info</a></p>
+            </div>
+        </div>
+        <div class="card" sec:authorize="hasRole('USER') and !hasRole('ADMIN')">
+            <h2>My Books</h2>
+            <p th:text="${myBooks}">75</p>
+            <div class="more-info-bg">
+                <p class="more-info-text"><a href="#" th:href="@{/dashboard/user-books}">More Info</a></p>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Not Returned</h2>
+            <p th:text="${issuedBooksCount}">10</p>
+            <div class="more-info-bg" sec:authorize="hasRole('ADMIN')">
+                <p class="more-info-text"><a href="#" th:href="@{/dashboard/issued-books}">More Info</a></p>
+            </div>
+        </div>
+        <div class="card" sec:authorize="hasRole('ADMIN')">
+            <h2>Borrowed</h2>
+            <p th:text="${borrowedBooks}">10</p>
+            <div class="more-info-bg">
+                <p class="more-info-text"><a href="#" th:href="@{/dashboard/borrowed}">More Info</a></p>
+            </div>
+        </div>
+        <div class="card" sec:authorize="hasRole('ADMIN')">
+            <h2>Users</h2>
+            <p th:text="${allUsers}">50</p>
+            <div class="more-info-bg">
+                <p class="more-info-text"><a href="#" th:href="@{/dashboard/show-users}">More Info</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{js/showFilter.js}"></script>
+<script th:src="@{js/showSubMenu.js}"></script>
+<script th:src="@{js/showRequest.js}"></script>
+<script th:src="@{js/showAddReview.js}"></script>
+
+</body>
+</html>

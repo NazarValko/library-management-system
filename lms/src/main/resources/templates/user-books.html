@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <link rel="stylesheet" href="/src/main/resources/static/css/style.css" th:href="@{/css/style.css}">
+  <link rel="stylesheet" href="/src/main/resources/static/css/header.css" th:href="@{/css/header.css}">
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<aside th:replace="~{fragments/panel :: panel}"></aside>
+<div class="main-content">
+
+  <table class="my-books-table">
+    <thead>
+    <tr>
+      <th>Book</th>
+      <th>Taken Date</th>
+      <th>Submit Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${userBooks}">
+      <td th:text="${book.book.title}">Book 1</td>
+      <td th:text="${book.takenDate}">2023-08-01</td>
+      <td th:text="${book.submitDate}">
+        2023-08-15
+
+      </td>
+      <td th:if="${book.submitDate < #dates.createNow()}" style="color: #b42525">
+        Expired!
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<script th:src="@{js/showFilter.js}"></script>
+<script th:src="@{js/showSubMenu.js}"></script>
+</body>
+</html>

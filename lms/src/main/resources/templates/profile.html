@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <link rel="stylesheet" href="/src/main/resources/static/css/style.css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="/src/main/resources/static/css/header.css" th:href="@{/css/header.css}">
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<aside th:replace="~{fragments/panel :: panel}"></aside>
+<div class="main-content">
+    <div class="profile-container">
+
+        <div class="profile-image">
+<!--            <img src="test.jpg" th:if="${base64Image}" th:src="@{'data:image/jpeg;base64,' + ${base64Image}}" alt="">-->
+        </div>
+
+        <form class="profile-form" action="#" th:action="@{/profile/update}"
+              th:object="${user}" method="POST" enctype="multipart/form-data">
+            <input type="text" th:field="*{firstName}" th:value="${user.firstName}" placeholder="First Name"/>
+            <input type="text" th:field="*{lastName}" th:value="${user.lastName}" placeholder="Last Name"/>
+            <input type="text" th:field="*{username}" th:value="${user.username}" placeholder="Username"/>
+            <input type="email" th:field="*{email}" th:value="${user.email}" placeholder="Email"/>
+            <input type="tel" th:field="*{phone}" th:value="${user.phone}" placeholder="Phone"/>
+            <input type="text" th:field="*{address}" th:value="${user.address}" placeholder="Address"/>
+            <input type="file" accept="image/*" th:value="${user.photoUrl}" name="profilePhoto">
+            <button type="submit" class="update-button" >Update Profile</button>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{js/showFilter.js}"></script>
+<script th:src="@{js/showSubMenu.js}"></script>
+</body>
+</html>

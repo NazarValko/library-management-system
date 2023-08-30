@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <link rel="stylesheet" href="/src/main/resources/static/css/style.css" th:href="@{/css/style.css}">
+  <link rel="stylesheet" href="/src/main/resources/static/css/header.css" th:href="@{/css/header.css}">
+  <link rel="stylesheet" href="/src/main/resources/static/css/view-book.css" th:href="@{/css/view-book.css}">
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<aside th:replace="~{fragments/panel :: panel}"></aside>
+<div class="main-content">
+
+  <form th:object="${book}" th:action="@{/update-book}" method="post">
+    <div class="book-details">
+      <h2>Book Details</h2>
+      <div class="book-info">
+        <div class="info-label">ISBN:</div>
+        <div class="info-value" th:text="${book.ISBN}">{{book.ISBN}}</div>
+        <input type="hidden" th:field="${book.ISBN}" th:value="${book.ISBN}" sec:authorize="hasRole('ADMIN')">
+      </div>
+      <div class="book-info">
+        <div class="info-label">Title:</div>
+<!--        <div class="info-value editable" sec:authorize="hasRole('ADMIN')" th:text="${book.title}" contenteditable="true">{{book.title}}</div>-->
+        <div class="info-value" sec:authorize="!hasRole('ADMIN')" th:text="${book.title}">{{book.title}}</div>
+        <input class="info-value editable" type="text" th:field="${book.title}" th:value="${book.title}" sec:authorize="hasRole('ADMIN')">
+      </div>
+      <div class="book-info">
+        <div class="info-label">Author:</div>
+<!--        <div class="info-value editable" sec:authorize="hasRole('ADMIN')" th:text="${book.author.name}" contenteditable="true">{{book.author.getName()}}</div>-->
+        <div class="info-value" sec:authorize="!hasRole('ADMIN')" th:text="${book.author.name}">{{book.author.getName()}}</div>
+        <input class="info-value editable" type="text" th:field="${book.author.name}" th:value="${book.author.name}" sec:authorize="hasRole('ADMIN')">
+      </div>
+      <div class="book-info">
+        <div class="info-label">Published Date:</div>
+<!--        <div class="info-value editable" sec:authorize="hasRole('ADMIN')" th:text="${book.publishedDate}" contenteditable="true">{{book.publishedDate}}</div>-->
+        <div class="info-value" sec:authorize="!hasRole('ADMIN')" th:text="${book.publishedDate}">{{book.publishedDate}}</div>
+        <input class="info-value editable" type="text" th:field="${book.publishedDate}" th:value="${book.publishedDate}" sec:authorize="hasRole('ADMIN')">
+      </div>
+      <div class="book-info">
+        <div class="info-label">Category:</div>
+<!--        <div class="info-value editable" sec:authorize="hasRole('ADMIN')" th:text="${book.category.name}" contenteditable="true">{{book.category.getName()}}</div>-->
+        <div class="info-value" sec:authorize="!hasRole('ADMIN')" th:text="${book.category.name}">{{book.category.getName()}}</div>
+        <input class="info-value editable" type="text" th:field="${book.category.name}" th:value="${book.category.name}" sec:authorize="hasRole('ADMIN')">
+      </div>
+      <button sec:authorize="hasRole('ADMIN')" class="update-button">Update</button>
+    </div>
+  </form>
+
+  <!-- Відгуки користувачів -->
+  <div class="reviews">
+    <h2>Reviews</h2>
+    <div th:each="review : ${book.reviews}" class="review">
+      <p class="username" th:text="${review.user.username}"></p>
+      <p class="comment" th:text="${review.description}"></p>
+    </div>
+  </div>
+</div>
+
+<script th:src="@{js/showFilter.js}"></script>
+<script th:src="@{js/showSubMenu.js}"></script>
+</body>
+</html>

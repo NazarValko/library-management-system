@@ -1,0 +1,45 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <link rel="stylesheet" href="/src/main/resources/static/css/style.css" th:href="@{/css/style.css}">
+  <link rel="stylesheet" href="/src/main/resources/static/css/header.css" th:href="@{/css/header.css}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Management System</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<aside th:replace="~{fragments/panel :: panel}"></aside>
+<div class="main-content">
+  <div class="add-user-form">
+    <h2>Add User</h2>
+    <form th:action="@{/add-user}" method="post" th:object="${user}">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" required><br>
+
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" required><br>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required><br>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required><br>
+
+      <label for="phone">Phone:</label>
+      <input type="tel" id="phone" name="phone"><br>
+
+      <label for="address">Address:</label>
+      <textarea id="address" name="address"></textarea><br>
+
+      <button type="submit">Register</button>
+    </form>
+  </div>
+</div>
+
+<script th:src="@{js/addBook.js}"></script>
+<script th:src="@{js/showFilter.js}"></script>
+<script th:src="@{js/showSubMenu.js}"></script>
+<script th:src="@{js/showRequest.js}"></script>
+</body>
+</html>

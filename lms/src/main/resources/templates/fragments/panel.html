@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <link rel="stylesheet" href="/src/main/resources/static/css/style.css" th:href="@{/css/style.css}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<aside th:fragment="panel" sec:authorize="isAuthenticated()" class="sidebar">
+  <div class="user-info">
+    <img src="user-photo.jpg" alt="User Photo">
+    <p sec:authentication="principal.username"></p>
+  </div>
+  <nav class="side-nav">
+    <ul>
+      <li><a href="#" th:href="@{/dashboard/}">Dashboard</a></li>
+      <li><a href="#" th:href="@{/profile/}">My Profile</a></li>
+      <li><a href="#" th:href="@{/user-books}" sec:authorize="!hasRole('ADMIN')">My Books</a></li>
+      <li><a href="#" th:href="@{/request-list}" sec:authorize="hasRole('ADMIN')">Reservation List</a></li>
+      <li sec:authorize="!hasRole('ADMIN')">
+        <a href="#" th:href="@{/}">Books</a>
+      </li>
+
+      <li sec:authorize="hasRole('ADMIN')">
+        <a href="#" id="books-dropdown">Books</a>
+        <ul class="books-sub-menu">
+          <li><a href="#" th:href="@{/show-add-book}" id="add-book-item">Add Book</a></li>
+          <li><a href="#" th:href="@{/}" id="view-books-item">View Books</a></li>
+        </ul>
+      </li>
+      <li><a href="#" th:href="@{/request-list}" sec:authorize="!hasRole('ADMIN')">My requests</a></li>
+      <li><a href="#" sec:authorize="hasRole('ADMIN')" th:href="@{/categories}">Manage Categories</a></li>
+      <li>
+        <a href="#" sec:authorize="hasRole('ADMIN')" id="user-dropdown">Manage Users</a>
+        <ul class="user-sub-menu">
+          <li><a href="#" th:href="@{/add-user-form}">Add User</a></li>
+          <li><a href="#" th:href="@{/show-users}">View Users</a></li>
+        </ul>
+      </li>
+      <li><a href="#" th:href="@{/issue-book-form/}" sec:authorize="hasRole('ADMIN')">Issue Books</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<script th:src="@{js/showFilter.js}"></script>
+<script th:src="@{js/showSubMenu.js}"></script>
+
+</body>
+</html>

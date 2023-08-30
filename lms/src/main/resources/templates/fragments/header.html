@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/src/main/resources/static/css/header.css" th:href="@{/css/header.css}">
+    <title>Title</title>
+</head>
+<body>
+<header class="header" th:fragment="header">
+    <h1 class="logo">Library Management System</h1>
+    <nav class="nav " id="nav">
+        <a class="nav-link" href="#" th:href="@{/login}" sec:authorize="isAnonymous()">Log In</a>
+        <a class="nav-link" href="#" th:href="@{/form}" sec:authorize="isAnonymous()">Sign Up</a>
+        <a class="nav-link" href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()">Log Out</a>
+        <a class="nav-link" href="#" th:href="@{/dashboard/}" sec:authorize="isAuthenticated()">Home</a>
+    </nav>
+
+</header>
+</body>
+</html>

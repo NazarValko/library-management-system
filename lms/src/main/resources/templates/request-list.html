@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <link rel="stylesheet" href="/src/main/resources/static/css/style.css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="/src/main/resources/static/css/header.css" th:href="@{/css/header.css}">
+    <meta charset="UTF-8">
+    <title></title>
+
+
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<aside th:replace="~{fragments/panel :: panel}"></aside>
+<div class="main-content">
+
+    <table class="my-books-table" >
+        <thead>
+        <tr>
+            <th>Photo</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>ISBN</th>
+            <th>Book</th>
+            <th>Author</th>
+            <th colspan="3">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="request : ${requests}" th:id="'request-' + ${request.id}">
+
+            <td th:text="${request.user.photoUrl}">2023-08-15</td>
+            <td th:text="${request.user.firstName}">2023-08-15</td>
+            <td th:text="${request.user.lastName}">2023-08-15</td>
+            <td th:text="${request.user.email}">2023-08-15</td>
+            <td th:text="${request.book.ISBN}">2023-08-15</td>
+            <td th:text="${request.book.title}">2023-08-01</td>
+            <td th:text="${request.book.author.name}">2023-08-01</td>
+
+            <td sec:authorize="hasRole('ADMIN')">
+                <button>
+                    <a href="#" class="open-modal-button" th:attr="data-request-id=${request.id}">Approve</a>
+                </button>
+            </td>
+
+            <td sec:authorize="hasRole('ADMIN')">
+                <button>
+                    <a href="#" th:href="@{/reject-request(requestId=${request.id})}">Reject</a>
+                </button>
+            </td>
+
+            <td><button><a href="#" th:href="@{/delete-request(requestId=${request.id})}">Discard</a></button></td>
+
+
+        </tr>
+
+        </tbody>
+    </table>
+
+    <div th:each="request : ${requests}" th:id="'modal-' + ${request.id}" class="modal">
+        <div class="modal-content">
+            <!-- Вміст модального вікна для кожного елемента списку -->
+            <button class="close-modal-button">✖</button>
+            <h2>Request Book</h2>
+            <form th:action="@{/approve-request}" th:object="${request}" method="post">
+
+                <input type="hidden" name="requestId" th:value="${request.id}" />
+
+                <p>User Id: <strong th:text="${request.user.id}"></strong></p>
+                <p>User Name: <strong th:text="${request.user.username}"></strong></p>
+                <p>Email: <strong th:text="${request.user.email}"></strong></p>
+                <p>Book: <strong th:text="${request.book.title}"></strong></p>
+                <p>Taken Date: <input type="date" th:name="takenDate" /></p>
+                <p>Submit Date: <input type="date" th:name="submitDate" /></p>
+
+                <input type="submit" value="Approve" class="custom-button" >
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{js/showFilter.js}"></script>
+<script th:src="@{js/showSubMenu.js}"></script>
+<script th:src="@{js/showRequest.js}"></script>
+<script th:src="@{js/closeRequest.js}"></script>
+</body>
+</html>

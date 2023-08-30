@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <link rel="stylesheet" href="/src/main/resources/static/css/style.css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="/src/main/resources/static/css/header.css" th:href="@{/css/header.css}">
+    <meta charset="UTF-8">
+    <title></title>
+
+
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<aside th:replace="~{fragments/panel :: panel}"></aside>
+<div class="main-content">
+
+    <table class="my-books-table" >
+        <thead>
+        <tr>
+            <th>Photo</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>ISBN</th>
+            <th>Book</th>
+            <th>Author</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="issuedBook : ${issuedBooks}">
+
+            <td th:text="${issuedBook.user.photoUrl}">2023-08-15</td>
+            <td th:text="${issuedBook.user.firstName}">2023-08-15</td>
+            <td th:text="${issuedBook.user.lastName}">2023-08-15</td>
+            <td th:text="${issuedBook.user.email}">2023-08-15</td>
+            <td th:text="${issuedBook.book.ISBN}">2023-08-15</td>
+            <td th:text="${issuedBook.book.title}">2023-08-01</td>
+            <td th:text="${issuedBook.book.author.name}">2023-08-01</td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script th:src="@{js/showFilter.js}"></script>
+<script th:src="@{js/showSubMenu.js}"></script>
+<script th:src="@{js/showRequest.js}"></script>
+<script th:src="@{js/closeRequest.js}"></script>
+</body>
+</html>

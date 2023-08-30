@@ -1,0 +1,95 @@
+
+
+.book-details {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.book-info {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.info-label {
+    flex: 1;
+    font-weight: bold;
+    color: #333;
+}
+
+.info-value {
+    flex: 3;
+    color: #555;
+}
+
+.editable {
+    border-bottom: 1px dashed #ccc;
+    cursor: pointer;
+    transition: border-bottom 0.2s ease-in-out;
+}
+
+.editable:hover {
+    border-bottom: 1px dashed #333;
+}
+
+.update-button {
+    display: block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.update-button:hover {
+    background-color: #0056b3;
+}
+
+.reviews {
+    margin: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+a {
+    display: inline-block;
+    margin-top: 20px;
+}
+.review {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+}
+
+.username {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.comment {
+    margin-top: 5px;
+}
+
+
+
+
+
+

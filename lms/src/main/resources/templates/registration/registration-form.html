@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <link rel="stylesheet" href="/src/main/resources/static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+  <h1>Registration Form</h1>
+  <form th:object="${registerCommand}" method="post" th:action="@{/sign-up}">
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input th:field="*{firstName}" type="text" id="firstName" name="firstName" required>
+    </div>
+    <div th:if="${#fields.hasErrors('firstName')}" th:class="error-field">
+      <ul>
+        <li th:each="error : ${#fields.errors()}" th:text="${error}"></li>
+      </ul>
+    </div>
+
+
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input th:field="*{lastName}" type="text" id="lastName" name="lastName" required>
+    </div>
+    <div th:if="${#fields.hasErrors('lastName')}" th:class="error-field">
+      <ul>
+        <li th:each="error : ${#fields.errors()}" th:text="${error}"></li>
+      </ul>
+    </div>
+
+
+    <div class="form-group">
+      <label for="userName">Username</label>
+      <input th:field="*{username}" type="text" id="userName" name="username" required>
+    </div>
+    <div th:if="${#fields.hasErrors('username')}" th:class="error-field">
+      <ul>
+        <li th:each="error : ${#fields.errors()}" th:text="${error}"></li>
+      </ul>
+    </div>
+
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input th:field="*{email}" type="email" id="email" name="email" required>
+    </div>
+    <div th:if="${#fields.hasErrors('email')}" th:class="error-field">
+      <ul>
+        <li th:each="error : ${#fields.errors()}" th:text="${error}"></li>
+      </ul>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input th:field="*{password}" type="password" id="password" name="password" required>
+    </div>
+    <div th:if="${#fields.hasErrors('password')}" th:class="error-field">
+      <ul>
+        <li th:each="error : ${#fields.errors()}" th:text="${error}"></li>
+      </ul>
+    </div>
+
+    <div class="form-group">
+      <label for="address">Address</label>
+      <input th:field="*{address}" type="text" id="address" name="address" required>
+    </div>
+    <div th:if="${#fields.hasErrors('address')}" th:class="error-field">
+      <ul>
+        <li th:each="error : ${#fields.errors()}" th:text="${error}"></li>
+      </ul>
+    </div>
+
+
+    <div class="form-group">
+      <label for="phone">Phone Number</label>
+      <input th:field="*{phone}" type="text" id="phone" name="phone" required>
+    </div>
+    <div th:if="${#fields.hasErrors('phone')}" th:class="error-field">
+      <ul>
+        <li th:each="error : ${#fields.errors()}" th:text="${error}"></li>
+      </ul>
+    </div>
+
+    <button type="submit">Sign Up</button>
+    <p th:class="back-link">
+      <a th:href="@{/}" >< Back to Main</a>
+    </p>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <link rel="stylesheet" href="/src/main/resources/static/css/style.css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="/src/main/resources/static/css/header.css" th:href="@{/css/header.css}">
+    <link rel="stylesheet" href="/src/main/resources/static/css/issue-book.css" th:href="@{/css/issue-book.css}">
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<aside th:replace="~{fragments/panel :: panel}"></aside>
+<div class="main-content">
+
+    <div class="issue-container">
+        <!-- Left section - User search -->
+        <div class="section">
+            <h2>Search User</h2>
+            <form th:action="@{/issue-book-form/search-user}" method="get">
+                <input name="username" class="search-input" type="text" placeholder="Search User">
+                <button type="submit">Search</button>
+            </form>
+            <div class="user-info" th:if="${user!=null}">
+                <p>User Id: <span th:text="${user.id}">12345</span></p>
+                <p>Email: <span th:text="${user.email}">user@example.com</span></p>
+                <p>Address: <span th:text="${user.address}">123 Main St, City</span></p>
+                <p>Phone: <span th:text="${user.phone}">555-1234</span></p>
+            </div>
+        </div>
+
+        <!-- Right section - Book search -->
+        <div class="section">
+            <h2>Search Book</h2>
+            <form th:action="@{/issue-book-form/search-book}" method="get">
+                <input name="bookName" class="search-input" type="text" placeholder="Search User">
+                <button type="submit">Search</button>
+            </form>
+            <div class="book-info" th:if="${book != null && book.author != null && book.category != null}">
+                <p>Book ISBN: <span th:text="${book.ISBN}">978-1234567890</span></p>
+                <p>Title: <span th:text="${book.title}">Sample Book Title</span></p>
+                <p>Author: <span th:text="${book.author.name}">John Doe</span></p>
+                <p>Category: <span th:text="${book.category.name}">Fiction</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom section - Issue Book form -->
+    <form action="#" th:action="@{/issue-book-form/issue-book}">
+        <div class="form-container">
+            <label for="issueDate">Issue Date:</label>
+            <input type="date" id="issueDate" name="takenDate" th:name="takenDate">
+            <label for="returnDate">Return Date:</label>
+            <input type="date" id="returnDate" name="submitDate" th:name="submitDate">
+            <button type="submit">Issue Book</button>
+        </div>
+    </form>
+</div>
+
+<script th:src="@{js/showFilter.js}"></script>
+<script th:src="@{js/showSubMenu.js}"></script>
+</body>
+</html>

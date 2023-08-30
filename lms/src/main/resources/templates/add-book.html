@@ -1,0 +1,49 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <link rel="stylesheet" href="/src/main/resources/static/css/style.css" th:href="@{/css/style.css}">
+  <link rel="stylesheet" href="/src/main/resources/static/css/header.css" th:href="@{/css/header.css}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Management System</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<aside th:replace="~{fragments/panel :: panel}"></aside>
+<div class="main-content">
+  <div class="add-book-container">
+    <h2>Add Book</h2>
+    <form th:action="@{/add-book}" th:object="${book}" method="post">
+      <div class="form-group">
+        <label for="isbn">ISBN:</label>
+        <input type="text" id="isbn" th:field="*{ISBN}">
+      </div>
+      <div class="form-group">
+        <label for="category">Category:</label>
+        <input type="text" id="category" th:field="*{category.name}" oninput="toggleCategoryInput()">
+        <datalist id="categoryList">
+          <option th:each="category : ${categories}" th:value="${category.name}"></option>
+        </datalist>
+      </div>
+      <div class="form-group">
+        <label for="title">Book Title:</label>
+        <input type="text" id="title" th:field="*{title}">
+      </div>
+      <div class="form-group">
+        <label for="author">Author:</label>
+        <input type="text" id="author" th:field="*{author.name}" oninput="toggleAuthorInput()">
+        <datalist id="authorList">
+          <option th:each="author : ${authors}" th:value="${author.name}"></option>
+        </datalist>
+      </div>
+      <button type="submit">Add Book</button>
+    </form>
+  </div>
+</div>
+
+<script th:src="@{js/addBook.js}"></script>
+<script th:src="@{js/showFilter.js}"></script>
+<script th:src="@{js/showSubMenu.js}"></script>
+<script th:src="@{js/showRequest.js}"></script>
+</body>
+</html>
