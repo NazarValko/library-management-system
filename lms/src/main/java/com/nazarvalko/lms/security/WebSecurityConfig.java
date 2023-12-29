@@ -31,42 +31,17 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(configurer ->
                         configurer
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                .requestMatchers("/image").permitAll()
-                                .requestMatchers("/").permitAll()
-                                //.requestMatchers("/register/**").permitAll()
-                                .requestMatchers("/form").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/sign-up").permitAll()
-                                .requestMatchers("/confirmation").permitAll()
-                                .requestMatchers("/logout").permitAll()
-                                .requestMatchers("/login").permitAll()
-                                .requestMatchers("/dashboard").hasRole("USER")
-                                .requestMatchers("/profile").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/user-books").hasRole("USER")
-                                .requestMatchers("/reservation-list").hasRole("ADMIN")
-                                .requestMatchers("/show-add-book").hasRole("ADMIN")
-                                .requestMatchers("/add-book").hasRole("ADMIN")
-                                .requestMatchers("/request-book").hasRole("USER")
-                                .requestMatchers("/request-list").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/show-users").hasRole("ADMIN")
-                                .requestMatchers("/show-issue-book-form").hasRole("ADMIN")
-                                .requestMatchers("/issue-book").hasRole("ADMIN")
-                                .requestMatchers("/issued-books").hasRole("USER")
-                                .requestMatchers("/borrowed").hasRole("ADMIN")
-                                .requestMatchers("/archived").hasRole("USER")
-                                .requestMatchers("/add-user").hasRole("ADMIN")
-                                .requestMatchers("/add-user-form").hasRole("ADMIN")
-                                .requestMatchers("/edit-user").hasRole("ADMIN")
-                                .requestMatchers("/delete-user").hasRole("ADMIN")
-                                .requestMatchers("/approve-request").hasRole("ADMIN")
-                                .requestMatchers("/reject-request").hasRole("ADMIN")
-                                .requestMatchers("/delete-book").hasRole("ADMIN")
-                                .requestMatchers("/categories").hasRole("ADMIN")
-                                .requestMatchers("/add-category").hasRole("ADMIN")
-                                .requestMatchers("/delete-category").hasRole("ADMIN")
-                                .requestMatchers("/update-category").hasRole("ADMIN")
-                                .requestMatchers("/view-book").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/update-book").hasRole("ADMIN")
-                                .requestMatchers("/return").hasRole("ADMIN")
+                                .requestMatchers("/", "/image", "/form", "/sign-up", "/confirmation", "/logout",
+                                        "/login").permitAll()
+                                .requestMatchers("/dashboard", "/user-books", "request-book", "/issued-books",
+                                        "/archived").hasRole("USER")
+                                .requestMatchers("/reservation-list", "/show-add-book", "/add-book",
+                                        "/show-users", "/show-issue-book-form", "/issue-book", "/borrowed",
+                                        "/add-user", "/add-user-form", "/edit-user", "/delete-user",
+                                        "/approve-request", "/reject-request", "/delete-book",
+                                        "/categories", "/add-category", "/delete-category",
+                                        "/update-category", "/update-book", "/return").hasRole("ADMIN")
+                                .requestMatchers("/profile", "/request-list", "/view-book").hasAnyRole("USER", "ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
