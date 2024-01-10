@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface UserRepository {
 
-    User loadUserByUsername(String username);
+    User findUserByEmail(String email);
 
     void updateProfile(User user);
 

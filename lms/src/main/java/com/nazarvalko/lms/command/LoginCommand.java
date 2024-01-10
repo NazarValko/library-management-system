@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 public class LoginCommand {
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
-    @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$")
     private String email;
 
     @NotNull(message = "is required")

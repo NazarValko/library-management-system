@@ -6,6 +6,9 @@ import com.nazarvalko.lms.repository.RoleRepository;
 import com.nazarvalko.lms.repository.UserRepository;
 import com.nazarvalko.lms.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,29 +30,15 @@ public class UserServiceImpl implements UserService {
 
     private RoleRepository roleRepository;
 
+    private AuthenticationManager authenticationManager;
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder,
-                           RoleRepository roleRepository) {
+                           RoleRepository roleRepository, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        User temp = userRepository.loadUserByUsername(username);
-        Collection<SimpleGrantedAuthority> authorities = mapRolesToAuthorities(temp.getRoles());
-        return new org.springframework.security.core.userdetails.User(temp.getUsername(),
-                temp.getPassword(), authorities);
-    }
-    private Collection<SimpleGrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        Collection<SimpleGrantedAuthority> authorities =  new ArrayList<>();
-
-        for (Role role : roles) {
-            SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role.getName());
-            authorities.add(simpleGrantedAuthority);
-        }
-        return authorities;
+        this.authenticationManager = authenticationManager;
     }
     @Override
     public void updateProfile(User user, MultipartFile file) {
@@ -74,6 +63,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByUsername(String username) {
         return userRepository.findUserByUsername(username);
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
     }
 
     @Override

@@ -15,13 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AdminController {
-    private UserService userService;
-
     private BookService bookService;
 
     @Autowired
-    public AdminController(UserService userService, BookService bookService) {
-        this.userService = userService;
+    public AdminController(BookService bookService) {
         this.bookService = bookService;
     }
 

@@ -63,7 +63,7 @@ public class IssueBookController {
         User user = (User) session.getAttribute("user");
         Book book = (Book) session.getAttribute("book");
 
-        User userData = userService.findUserByUsername(user.getUsername());
+        User userData = userService.findUserByEmail(user.getUsername());
         Book bookData = bookService.findBookByISBN(book.getISBN());
 
 

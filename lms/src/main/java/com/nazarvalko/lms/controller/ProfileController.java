@@ -42,7 +42,7 @@ public class ProfileController {
 
     @GetMapping("/")
     public String profile(Principal principal, Model model) throws IOException {
-        User user = userService.findUserByUsername(principal.getName());
+        User user = userService.findUserByEmail(principal.getName());
 
         model.addAttribute("user", user);
         return "profile";

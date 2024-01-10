@@ -9,10 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Collection;
 import java.util.List;
 
-public interface UserService extends UserDetailsService {
+public interface UserService {
 
-    @Override
-    UserDetails loadUserByUsername(String username);
 
     void updateProfile(User user, MultipartFile file);
 
@@ -21,6 +19,8 @@ public interface UserService extends UserDetailsService {
     User findUserById(int id);
 
     User findUserByUsername(String username);
+
+    User findUserByEmail(String email);
 
     void deleteUser(int id);
 

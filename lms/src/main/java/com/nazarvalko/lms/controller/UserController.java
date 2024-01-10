@@ -39,7 +39,7 @@ public class UserController {
 
     @GetMapping("/user-books")
     public String getUserBooks(Principal principal, Model model) {
-        User user = userService.findUserByUsername(principal.getName());
+        User user = userService.findUserByEmail(principal.getName());
 
         model.addAttribute("userBooks", user.getBooks());
         return "user-books";
@@ -47,7 +47,7 @@ public class UserController {
 
     @GetMapping("/request-book")
     public String request(Principal principal, @RequestParam("bookId") int bookId) {
-        User user = userService.findUserByUsername(principal.getName());
+        User user = userService.findUserByEmail(principal.getName());
         Book book = bookService.findBookById(bookId);
         RequestBook requestBook = new RequestBook();
 
@@ -63,7 +63,7 @@ public class UserController {
 
     @GetMapping("/request-list")
     public String myRequests(Principal principal, Model model) {
-        User user = userService.findUserByUsername(principal.getName());
+        User user = userService.findUserByEmail(principal.getName());
         Role role_admin = roleService.findRoleByName("ROLE_ADMIN");
 
         if (user.getRoles().contains(role_admin)) {
@@ -121,7 +121,7 @@ public class UserController {
 
     @PostMapping("/add-review")
     public String addReview(@RequestParam("id") int id, @ModelAttribute("comment") String comment, Principal principal) {
-        User user = userService.findUserByUsername(principal.getName());
+        User user = userService.findUserByEmail(principal.getName());
         Book temp = bookService.findBookById(id);
         Review review = new Review();
         review.setDescription(comment);

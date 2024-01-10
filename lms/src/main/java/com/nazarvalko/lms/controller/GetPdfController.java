@@ -29,7 +29,7 @@ public class GetPdfController {
     @GetMapping("/generate-pdf")
     public void generatePdf(Principal principal, HttpServletResponse response) throws IOException, DocumentException {
         String username = principal.getName();
-        User user = userService.findUserByUsername(username);
+        User user = userService.findUserByEmail(username);
         if (user != null) {
             pdfService.generatePdf(user, response);
         }

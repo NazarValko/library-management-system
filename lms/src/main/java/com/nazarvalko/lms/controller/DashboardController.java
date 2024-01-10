@@ -45,7 +45,7 @@ public class DashboardController {
     @GetMapping("/")
     public String showStatistics(Model model, Principal principal) {
 
-        User user = userService.findUserByUsername(principal.getName());
+        User user = userService.findUserByEmail(principal.getName());
         Role role_admin = roleService.findRoleByName("ROLE_ADMIN");
 
 
@@ -70,14 +70,14 @@ public class DashboardController {
 
     @GetMapping("/user-books")
     public String userBooks(Model model, Principal principal) {
-        User user = userService.findUserByUsername(principal.getName());
+        User user = userService.findUserByEmail(principal.getName());
 
         model.addAttribute("userBooks", bookService.getUserBooks(user));
         return "user-books";
     }
     @GetMapping("/borrowed")
     public String borrowedBooks(Model model, Principal principal) {
-        User user = userService.findUserByUsername(principal.getName());
+        User user = userService.findUserByEmail(principal.getName());
 
         model.addAttribute("userBooks", bookService.getAllUserBooks());
         return "borrowed-books";
