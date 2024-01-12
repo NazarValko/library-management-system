@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.sql.Date;
@@ -38,16 +35,16 @@ public class UserController {
     }
 
     @GetMapping("/user-books")
-    public String getUserBooks(Principal principal, Model model) {
-        User user = userService.findUserByEmail(principal.getName());
+    public String getUserBooks(@CookieValue(value = "email", required = false) String email, Model model) {
+        User user = userService.findUserByEmail(email);
 
         model.addAttribute("userBooks", user.getBooks());
         return "user-books";
     }
 
     @GetMapping("/request-book")
-    public String request(Principal principal, @RequestParam("bookId") int bookId) {
-        User user = userService.findUserByEmail(principal.getName());
+    public String request(@CookieValue(value = "email") String email, @RequestParam("bookId") int bookId) {
+        User user = userService.findUserByEmail(email);
         Book book = bookService.findBookById(bookId);
         RequestBook requestBook = new RequestBook();
 

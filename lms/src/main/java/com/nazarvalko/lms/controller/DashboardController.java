@@ -9,6 +9,9 @@ import com.nazarvalko.lms.service.AdminService;
 import com.nazarvalko.lms.service.BookService;
 import com.nazarvalko.lms.service.RoleService;
 import com.nazarvalko.lms.service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/dashboard")
@@ -43,16 +48,23 @@ public class DashboardController {
     }
 
     @GetMapping("/")
-    public String showStatistics(Model model, Principal principal) {
+    public String showStatistics(Model model, Principal principal, HttpServletResponse response,
+                                 HttpServletRequest request) {
 
         User user = userService.findUserByEmail(principal.getName());
         Role role_admin = roleService.findRoleByName("ROLE_ADMIN");
 
+        if (Arrays.stream(request.getCookies())
+                .filter(cookie -> cookie.getName().equals("email")).toList().isEmpty()) {
+            Cookie cookie = new Cookie("email", principal.getName());
+            cookie.setMaxAge(7 * 24 * 60 * 60);
+            cookie.setPath("/");
 
+            response.addCookie(cookie);
+        }
 
         model.addAttribute("allBooks", bookService.countAllBooks());
         model.addAttribute("myBooks", bookService.countUserBooks(user));
-
 
         if (user.getRoles().contains(role_admin)) {
             model.addAttribute("issuedBooksCount", adminService.allIssuedBooks().size());
@@ -63,7 +75,6 @@ public class DashboardController {
 
         model.addAttribute("borrowedBooks", bookService.countAllBorrowedBooks());
         model.addAttribute("allUsers", userService.countAllUsers());
-
 
         return "dashboard";
     }
