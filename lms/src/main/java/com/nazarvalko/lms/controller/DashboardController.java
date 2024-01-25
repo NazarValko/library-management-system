@@ -54,15 +54,6 @@ public class DashboardController {
         User user = userService.findUserByEmail(principal.getName());
         Role role_admin = roleService.findRoleByName("ROLE_ADMIN");
 
-        if (Arrays.stream(request.getCookies())
-                .filter(cookie -> cookie.getName().equals("email")).toList().isEmpty()) {
-            Cookie cookie = new Cookie("email", principal.getName());
-            cookie.setMaxAge(7 * 24 * 60 * 60);
-            cookie.setPath("/");
-
-            response.addCookie(cookie);
-        }
-
         model.addAttribute("allBooks", bookService.countAllBooks());
         model.addAttribute("myBooks", bookService.countUserBooks(user));
 

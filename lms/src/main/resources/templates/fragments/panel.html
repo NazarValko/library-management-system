@@ -11,7 +11,7 @@
 <aside th:fragment="panel" sec:authorize="isAuthenticated()" class="sidebar">
   <div class="user-info">
     <img src="user-photo.jpg" alt="User Photo">
-    <p sec:authentication="principal.username"></p>
+    <p sec:authentication="name"></p>
   </div>
   <nav class="side-nav">
     <ul>

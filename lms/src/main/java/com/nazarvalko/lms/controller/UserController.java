@@ -35,16 +35,16 @@ public class UserController {
     }
 
     @GetMapping("/user-books")
-    public String getUserBooks(@CookieValue(value = "email", required = false) String email, Model model) {
-        User user = userService.findUserByEmail(email);
+    public String getUserBooks(Principal principal, Model model) {
+        User user = userService.findUserByEmail(principal.getName());
 
         model.addAttribute("userBooks", user.getBooks());
         return "user-books";
     }
 
     @GetMapping("/request-book")
-    public String request(@CookieValue(value = "email") String email, @RequestParam("bookId") int bookId) {
-        User user = userService.findUserByEmail(email);
+    public String request(Principal principal, @RequestParam("bookId") int bookId) {
+        User user = userService.findUserByEmail(principal.getName());
         Book book = bookService.findBookById(bookId);
         RequestBook requestBook = new RequestBook();
 
